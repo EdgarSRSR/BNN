@@ -8,9 +8,9 @@
 % or to -1 if it below 0
 
 function v = deterministic_binarization(x)
-  if (x == 0)
-    v = -1
+  if (x > 0)
+    v = 1;
   else
-    v = 1
+    v = -1;
 end
 

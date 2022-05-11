@@ -52,8 +52,8 @@ imagesc(reshape(images(1,:),28,28)')
 labels(1)
 
 % show image for the 100th row
-imagesc(reshape(images(100,:),28,28)')
-labels(100)
+%imagesc(reshape(images(100,:),28,28)')
+%labels(100)
 
 %Picture that will be ued for training
 %inputPicture = imread('');
@@ -75,17 +75,25 @@ labels(100)
 %fprintf('Generate Network \n')
 
 % Kernel for convolution
-kernel = [0, 1; 0, 1]
+kernel = [-1, 1; -1, 1]
 
-% work on binarizing the image
+% work on binarizing the image by calling the deterministic binarization  function
 binaryImage = []
-for i = imgTest
-  binaryImage(end + 1,:) =deterministic_binarization(i);
- endfor
+for i = 1:rows(imgTest)
+  for j = 1:columns(imgTest)
+    binaryImage(i,j) =deterministic_binarization(imgTest(i,j));
+    %binaryImage(end + 1,:) = kernel(i,j);
+   endfor
+endfor
  
- binaryImage 
-reshape(binaryImage(),28,28);
+% print the matrices for the image before and after binarization
+ imgTest
+ binaryImage
+%reshape(binaryImage(:),28,28)
 
+practice = [1,1;1,-1]
+% transform matrix to row array
+practice(:)'
 % Define the network structure as a vector
 % [784 128 10]
 %  - Input layer has 784 neurons for all pixels of the 28x28 image
