@@ -26,7 +26,7 @@ clear;
 fprintf('Reading and Preparing Training Data  \n')
 
 data = load('../mnist/mnist_test.csv');
-size(data) 
+size(data)
 
 data(1,1)
 
@@ -85,7 +85,7 @@ for i = 1:rows(imgTest)
     %binaryImage(end + 1,:) = kernel(i,j);
    endfor
 endfor
- 
+
 % print the matrices for the image before and after binarization
  imgTest
  binaryImage
@@ -93,7 +93,9 @@ endfor
 
 practice = [1,1;1,-1]
 % transform matrix to row array
-practice(:)'
+vec = practice(:)'
+%popcount
+sum(dec2bin([1,1,0,0])== '1')
 % Define the network structure as a vector
 % [784 128 10]
 %  - Input layer has 784 neurons for all pixels of the 28x28 image
