@@ -7,6 +7,9 @@
 % CONVOLUTION
 % Apply XNOR AND POPCOUNT
 
-function c = convolution(x)
-  c = not(xor(1,-1))
+function c = convolution(x,y)
+
+  for i = length(x)
+    c(i) = not(xor(x(i),y(i)));
+  endfor
 end
