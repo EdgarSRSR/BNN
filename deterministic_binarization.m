@@ -11,6 +11,6 @@ function v = deterministic_binarization(x)
   if (x > 0)
     v = 1;
   else
-    v = -1;
+    v = 0;
 end
 

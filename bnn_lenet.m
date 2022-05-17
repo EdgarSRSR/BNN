@@ -75,7 +75,7 @@ labels(1)
 %fprintf('Generate Network \n')
 
 % Kernel for convolution
-kernel = [-1, 1; -1, 1]
+kernel = [0, 1; 0, 1]
 
 % work on binarizing the image by calling the deterministic binarization  function
 binaryImage = []
@@ -91,7 +91,7 @@ endfor
  binaryImage
 %reshape(binaryImage(:),28,28)
 
-practice = [1,1;1,-1]
+practice = [1,1;1,0]
 % transform matrix to row array
 vec = practice(:)'
 %popcount
