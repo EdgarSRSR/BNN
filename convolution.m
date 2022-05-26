@@ -7,14 +7,15 @@
 % CONVOLUTION
 % Apply XNOR AND POPCOUNT
 
-function c = convolution(x,y)
-  %c = [0 0 0 0];
-  for i = 1:length(x)
-    % x nor process
-    c(i) = not(xor(x(i),y(i)));
-    %fprintf(' x array %d\n', x(i) )
-    %fprintf(' y array %d\n', y(i) )
+function rmatrix = convolution(matrix, kernel)
+  % turn the matrix into a transposed vector array
+  krow = reshape(kernel',1,[])
+  % turn the kernel into a transposed vector array
+  m = reshape(matrix',1,[])
+  wy = columns(matrix) - columns(kernel) + 1
+  hy = rows(matrix) - rows(kernel) + 1
 
-
+  for i = 1:(wy*hy)
+      rmatrix(i) = 1;
   end
 end
