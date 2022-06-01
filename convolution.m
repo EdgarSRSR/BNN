@@ -10,7 +10,7 @@
 function rmatrix = convolution(matrix, kernel)
   % turn the kernel into a transposed vector array
   krow = reshape(kernel',1,[])
-  % turn the kernel into a transposed vector array
+  % turn the matrix into a transposed vector array
   m = reshape(matrix',1,[])
   wy = columns(matrix) - columns(kernel) + 1
   hy = rows(matrix) - rows(kernel) + 1
@@ -21,7 +21,7 @@ function rmatrix = convolution(matrix, kernel)
     if mod(i,wx) != 0
       %display([(i),(i+1),(i+wx),(i+wx+1)]);
       %rmatrix(i) = i;
-      rmatrix(end+1) = binaryCrossCorrelation([(i),(i+1),(i+wx),(i+wx+1)],krow);
+      rmatrix(end+1) = binaryCrossCorrelation([m(i),m(i+1),m(i+wx),m(i+wx+1)],krow);
     endif
     if mod(i, wx) == 0
       continue;
