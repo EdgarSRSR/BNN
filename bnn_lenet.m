@@ -45,7 +45,7 @@ size(images)
 
 % create a 28x28 matrix from the data of the first image.
 
-imgTest = reshape(images(1,:),28,28);
+imgTest = reshape(images(1,:),28,28)';
 % show the image for the first row
 colormap gray
 imagesc(reshape(images(1,:),28,28)')
