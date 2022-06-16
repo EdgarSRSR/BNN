@@ -5,6 +5,7 @@
 %===============================================================================
 
 % CONVOLUTION
+% THIS CONVOLUTION ONLY WORKS FOR 2X2 KERNELS
 % Apply XNOR AND POPCOUNT
 
 function rmatrix = convolution(matrix, kernel)
@@ -19,7 +20,7 @@ function rmatrix = convolution(matrix, kernel)
   rmatrix = [0];
   for i = 1:(wx*hx - (wx + 1))
     if mod(i,wx) != 0
-      %display([(i),(i+1),(i+wx),(i+wx+1)]);
+      %display([m(i),m(i+1),m(i+wx),m(i+wx+1)]);
       %rmatrix(i) = i;
       rmatrix(end+1) = binaryCrossCorrelation([m(i),m(i+1),m(i+wx),m(i+wx+1)],krow);
     endif
@@ -28,5 +29,5 @@ function rmatrix = convolution(matrix, kernel)
     endif
   end
   rmatrix(1) = [];
-  rmatrix = reshape(rmatrix,3,3)';
+  %rmatrix = reshape(rmatrix,wy,hy)';
 end

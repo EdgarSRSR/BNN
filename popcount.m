@@ -8,5 +8,5 @@
 
 function p = popcount(x)
 
-  p = sum(dec2bin(x)== '1')
+  p = sum(dec2bin(x)== '1');
 end
