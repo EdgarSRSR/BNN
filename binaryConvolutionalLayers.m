@@ -7,7 +7,7 @@
 % Processes the convolutional layers. Includes convolution, average pooling and binarization
 
 
-function binaryImage = binaryConvolutionalLayers (image, kernel)
+function binaryImage = binaryConvolutionalLayers (image, kernel, kernel2)
 
   % work on binarizing the image by calling the deterministic binarization  function
   % binaryImage = []
@@ -23,7 +23,7 @@ function binaryImage = binaryConvolutionalLayers (image, kernel)
 
   binaryImage = deterministic_binarization(binaryImage);
 
-  binaryImage = convolution(binaryImage,kernel);
+  binaryImage = convolution(binaryImage,kernel2);
 
 
   % turn a row into a matrix

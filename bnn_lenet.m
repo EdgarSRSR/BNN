@@ -144,4 +144,20 @@ sum(dec2bin([1,1,0,0])== '1')
 %save('bb_lenet.mat','trainedNetwork','networkStructure','nnParams');
 %fprintf('\nFinished Script\n')
 
+%===============================================================================
+% data = load('../mnist/mnist_test.csv');
+% labels = data(:,1);
+% images = data(:,2:785);
+% size(images)
+% imgTest = reshape(images(1,:),28,28)';
+% imgTestLabel = labels(1)
+% kernel =  [0 1; 0 1]
+% btest = binaryConvolutionalLayers(imgTest,kernel)
+% structure = [576 120 10];
+% network = generateNetwork(structure);
+% epochs = 5;
+% alpha = 0.00001;
+% [trainedNetwork,costLog,accuracyLog]=trainNetwork(btest,imgTestLabel,network,'epochs',epochs, 'alpha',alpha);
+% np=networkPredictions(btest,trainedNetwork)
+
 

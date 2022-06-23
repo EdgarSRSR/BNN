@@ -19,7 +19,7 @@ function avrg = avrgPooling (matrix,stride)
     endfor
   endfor
   avrg(1) = [];
-  display(avrg)
-  avrg = reshape(avrg,((wx/stride)-1),((hx/stride)-1))';
+  display(avrg);
+  %avrg = reshape(avrg,((wx/stride)-1),((hx/stride)-1))';
 
 endfunction

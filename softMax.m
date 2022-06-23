@@ -15,14 +15,14 @@
 
 function retval = softMax (x)
 
-  denom = sum(exp(x(:)))
+  denom = sum(exp(x(:)));
 
   for i = 1:length(x)
 
     retval(i)=  (exp(x(i))) / denom;
 
   endfor
-  display(retval)
+  %display(retval)
   % if we want to give the biggest values instead of the array
    retval = max(retval);
 
