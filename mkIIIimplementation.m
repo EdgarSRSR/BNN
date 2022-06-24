@@ -33,7 +33,8 @@
  alpha = 0.00001;
  [trainedNetwork,costLog,accuracyLog]=trainNetwork(btest,imgTestLabel,network,'epochs',epochs, 'alpha',alpha);
  np=networkPredictions(btest,trainedNetwork)
- softMax(np)
+ r = softMax(np)
+ max(r)
 
 
  % experiment with different kernels for each convolution

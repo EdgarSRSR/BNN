@@ -24,6 +24,8 @@ function retval = softMax (x)
   endfor
   %display(retval)
   % if we want to give the biggest values instead of the array
-   retval = max(retval);
+   %retval = max(retval);
 
 endfunction
+
+

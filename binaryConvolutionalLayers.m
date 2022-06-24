@@ -21,6 +21,8 @@ function binaryImage = binaryConvolutionalLayers (image, kernel, kernel2)
 
   binaryImage = avrgPooling(binaryImage,1);
 
+  binaryImage = reshape(binaryImage,26,26)';
+
   binaryImage = deterministic_binarization(binaryImage);
 
   binaryImage = convolution(binaryImage,kernel2);
@@ -33,6 +35,8 @@ function binaryImage = binaryConvolutionalLayers (image, kernel, kernel2)
   binaryImage = reshape(binaryImage,25,25)';
 
   binaryImage = avrgPooling(binaryImage,1);
+
+  binaryImage = reshape(binaryImage,24,24)';
 
   binaryImage =deterministic_binarization(binaryImage);
 

@@ -67,6 +67,8 @@
 
   np=networkPredictions(binaryImage,trainedNetwork)
 
-  softMax(np)
+  r = softMax(np)
+
+  max(r)
 
  % use the same network to train al binaryImage and the result should be an accurate trainedNetwork
