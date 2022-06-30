@@ -80,12 +80,12 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
 
     %matrices for the Output of each Layer
 
-    layer=cell(1,numberOfLayers);
+    layer=cell(1,numberOfLayers); % set that will have arrays for each layer
 
 
     m=size(X,1);
-    cost_log=zeros(epochs,1);
-    trainingSetAccuracy=zeros(epochs,1);
+    cost_log=zeros(epochs,1); % set that saves costs of epochs
+    trainingSetAccuracy=zeros(epochs,1); % array that saves training accuracy of epoch
     validationSetAccuracy=zeros(epochs,1);
 
 
@@ -117,13 +117,13 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         error{numberOfLayers} = layer{numberOfLayers} - y'; %The error for the last layer is calculated outside of the for loop
 
         for j=numberOfThetas: -1 :2
-            error{j} = theta{j}' * error {j+1};
+            error{j} = theta{j}' * error {j+1}; % multiplicate matrices of output error and weughts of the previous layer of network
         end
 
 
         %Substract partial derivatives from theta
         for j=1:numberOfThetas
-            theta{j} = theta{j} - alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}');
+            theta{j} = theta{j} - alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}'); % gradient descent
         end
 
         %Calculate Mean Square Error for each iteration

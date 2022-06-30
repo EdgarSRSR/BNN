@@ -4,7 +4,7 @@
 %
 %===============================================================================
 
-% GENERATENETWORK Generates the weight matrices for the neural network and fills them
+% GENERATENETWORK Generates the weight matrices for the fully connected neural network and fills them
 % with binarized random numbers.
 % A = GENERATENETWORK(structure) generates the matrices for the given structure network
 % [784 128 10]

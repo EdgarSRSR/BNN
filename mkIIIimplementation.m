@@ -29,12 +29,18 @@
  btest = binaryConvolutionalLayers(imgTest,kernel,kernel2)
  structure = [576 120 10];
  network = generateNetwork(structure);
- epochs = 5;
+ epochs = 50;
  alpha = 0.00001;
  [trainedNetwork,costLog,accuracyLog]=trainNetwork(btest,imgTestLabel,network,'epochs',epochs, 'alpha',alpha);
  np=networkPredictions(btest,trainedNetwork)
  r = softMax(np)
  max(r)
+
+ %Plot the cost log from training
+ figCostLog=figure();
+ plot(costLog);
+ ylabel('loss');
+ xlabel('epochs');
 
 
  % experiment with different kernels for each convolution

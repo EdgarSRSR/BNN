@@ -59,7 +59,7 @@
 
   network = generateNetwork(structure);
 
-  epochs = 5;
+  epochs = 100;
 
   alpha = 0.00001;
 
@@ -70,5 +70,15 @@
   r = softMax(np)
 
   max(r)
+
+ %Plot the cost log from training
+
+ figCostLog=figure();
+
+ plot(costLog);
+
+ ylabel('loss');
+
+ xlabel('epochs');
 
  % use the same network to train al binaryImage and the result should be an accurate trainedNetwork
