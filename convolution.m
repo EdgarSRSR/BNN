@@ -12,7 +12,7 @@ function rmatrix = convolution(matrix, kernel)
   % turn the kernel into a transposed vector array
   krow = reshape(kernel',1,[])
   % turn the matrix into a transposed vector array
-  m = reshape(matrix',1,[])
+  m = reshape(matrix',1,[]);
   wy = columns(matrix) - columns(kernel) + 1
   hy = rows(matrix) - rows(kernel) + 1
   wx = columns(matrix)

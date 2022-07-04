@@ -11,7 +11,9 @@ function binaryImage = binaryConvolutionalLayers (image, kernel, kernel2)
 
   % work on binarizing the image by calling the deterministic binarization  function
   % binaryImage = []
-  binaryImage = deterministic_binarization(image);
+  %%binaryImage = deterministic_binarization(image);
+
+  binaryImage = reshape(image,28,28)';
 
   binaryImage = convolution(binaryImage,kernel);
 
@@ -42,7 +44,7 @@ function binaryImage = binaryConvolutionalLayers (image, kernel, kernel2)
 
   % flatten
 
-  binaryImage = reshape(binaryImage',1,[])
+  binaryImage = reshape(binaryImage',1,[]);
 
 
 endfunction

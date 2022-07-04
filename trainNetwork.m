@@ -99,7 +99,6 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
 
 
 
-
     %loop the carry out gradient descent iter times
     for i=1:epochs
         fprintf("Epoch %d/%d\r",i,epochs);
@@ -126,9 +125,9 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
             theta{j} = theta{j} - alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}'); % gradient descent
         end
 
-        %Calculate Mean Square Error for each iteration
-        %Double sum because sum of a matrix creates a vektor and sum of a
-        %vektor creates a double value.
+        %Calculate Mean Square Error for each epoch
+        %Double sum because sum of a matrix creates a vector and sum of a
+        %vector creates a double value.
         cost = 1/m * sum(sum(error{numberOfLayers}.^2));
         cost_log(i)=cost;
 

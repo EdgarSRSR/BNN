@@ -23,10 +23,14 @@
  images = data(:,2:785);
  size(images)
  imgTest = reshape(images(1,:),28,28)';
+ % load binaryDataImages.mat % to load binaryDataImages.mat file
+ % btest = reshape(binaryData{1},28,28)' % to call images from binaryData directly
  imgTestLabel = labels(1)
  kernel =  [0 1; 0 1] % check for vertical features
  kernel2 = [0 0; 1 1] % check for horizontal features
  btest = binaryConvolutionalLayers(imgTest,kernel,kernel2)
+ % load ConvBinaryImgMkIII.mat
+ % btest = convolutedBinaryImg{1} % call image that has already gone through the whole binaryConvolutionalLayers function
  structure = [576 120 10];
  network = generateNetwork(structure);
  epochs = 50;
@@ -45,3 +49,5 @@
 
  % experiment with different kernels for each convolution
  % us the same network to train al btest and the result should be an accurate trainedNetwork
+
+
