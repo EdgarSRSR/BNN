@@ -10,8 +10,10 @@
 function binaryImage = binaryConvolutionalLayers (image, kernel, kernel2)
 
   % work on binarizing the image by calling the deterministic binarization  function
-  % binaryImage = []
-  %%binaryImage = deterministic_binarization(image);
+  binaryImage = []
+  binaryImage = deterministic_binarization(image);
+
+   % turn a row vector into a matrix
 
   binaryImage = reshape(image,28,28)';
 

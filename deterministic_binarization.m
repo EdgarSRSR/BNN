@@ -9,7 +9,7 @@
 
 function binaryImage = deterministic_binarization(image)
 
-  binaryImage = []
+  binaryImage = [];
   for i = 1:rows(image)
     for j = 1:columns(image)
       if (image(i,j) > 0)

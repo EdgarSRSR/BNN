@@ -9,12 +9,12 @@
 
 function avrg = avrgPooling (matrix,stride)
 
-  wx = columns(matrix)
-  hx = rows(matrix)
+  wx = columns(matrix);
+  hx = rows(matrix);
   avrg = [0];
   for i=1:stride:(hx-1)
     for j=1:stride:(wx-1)
-      display([matrix(i,j),matrix(i,j+1),matrix(i+1,j),matrix(i+1,j+1)])
+      display([matrix(i,j),matrix(i,j+1),matrix(i+1,j),matrix(i+1,j+1)]);
       avrg(end+1)= mean([matrix(i,j),matrix(i,j+1),matrix(i+1,j),matrix(i+1,j+1)]);
     endfor
   endfor

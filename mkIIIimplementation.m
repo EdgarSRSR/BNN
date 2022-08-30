@@ -17,26 +17,38 @@
  % soft max function
  % output: 1 0f 10 classes
 
-
+% charges the MNIST data
  data = load('../mnist/mnist_test.csv');
+ % get labels
  labels = data(:,1);
+ % get image data
  images = data(:,2:785);
+ % check the size of the images
  size(images)
+ % choose an image from the data base
  imgTest = reshape(images(1,:),28,28)';
- % load binaryDataImages.mat % to load binaryDataImages.mat file
+ % load binaryDataImages.mat % to load binaryDataImages.mat file which contains the images from MNIST binarized.
  % btest = reshape(binaryData{1},28,28)' % to call images from binaryData directly
+ % get the label from the chosen image.
  imgTestLabel = labels(1)
+ % create kernels for the convolutions
  kernel =  [0 1; 0 1] % check for vertical features
  kernel2 = [0 0; 1 1] % check for horizontal features
- btest = binaryConvolutionalLayers(imgTest,kernel,kernel2)
- % load ConvBinaryImgMkIII.mat
- % btest = convolutedBinaryImg{1} % call image that has already gone through the whole binaryConvolutionalLayers function
+ % applies the convolutions, average pooling and binarization to prepare for the fully connected layer
+ btest = binaryConvolutionalLayers(imgTest,kernel,kernel2);
+ %load ConvBinaryImgMkIII.mat
+ %btest = convolutedBinaryImg{1} % call image that has already gone through the whole binaryConvolutionalLayers function
+ % define structure for fully connected layer
  structure = [576 120 10];
+ % create the fully connected network
  network = generateNetwork(structure);
  epochs = 50;
  alpha = 0.00001;
+ % train the network
  [trainedNetwork,costLog,accuracyLog]=trainNetwork(btest,imgTestLabel,network,'epochs',epochs, 'alpha',alpha);
+ % create a prediction using the the trained network and the chosen image
  np=networkPredictions(btest,trainedNetwork)
+ % apply softmax to the prediction
  r = softMax(np)
  max(r)
 
@@ -46,11 +58,13 @@
  ylabel('loss');
  xlabel('epochs');
 
-
+ imgTestLabel = labels(1)
  % experiment with different kernels for each convolution
  % us the same network to train al btest and the result should be an accurate trainedNetwork
 
-
+%%%%%%%%% for  checking the mass data %%%%%%
+ %load ConvBinaryImgMkIII.mat
+ %load arrayLabels.mat
 
 % for i =1:6000
 %[trainedNetwork,costLog,accuracyLog]=trainNetwork(convolvedDataMkIII{i},arrayLabels{i},trainedNetwork,'epochs',epochs, 'alpha',alpha);
