@@ -19,13 +19,15 @@
 
 
  data = load('../mnist/mnist_test.csv');
- labels = data(:,1);
+ labels = data(:,1); % labels for the samples
  images = data(:,2:785);
  size(images)
- imgTest = reshape(images(1,:),28,28)'
- imgTestLabel = labels(1)
+ imgTest = reshape(images(2,:),28,28)' % this selects the sample used from the data base
+ imgTestLabel = labels(2)
  kernel = [0 0 1 0 0; 0 0 1 0 0; 0 0 1 0 0; 0 0 1 0 0; 0 0 1 0 0] % check for vertical features
+ % kernel1_horizontal = [0 0 0 0 0; 0 0 0 0 0; 1 1 1 1 1; 0 0 0 0 0; 0 0 0 0 0] check for horizontal features
  kernel2 = [0 0; 1 1] % check for horizontal features
+ % kernel2_vertical = [0 1; 0 1] check for vertical features
 
   % work on binarizing the image by calling the deterministic binarization  function
   % binaryImage = []
@@ -82,7 +84,8 @@
  xlabel('epochs');
 
  % use the same network to train al binaryImage and the result should be an accurate trainedNetwork
-
+%  load(binaryDataImages.mat) to call the mat file with the test images turned binary
+% reshape(binaryImage{2},27,27)'  show one of the binary images
  % convolving with binary
  %for i = 8001:10000
   % img = reshape(binaryData{i},28,28)';
@@ -97,8 +100,15 @@
    %convolutedImagesMkIV{i} = reshape(img',1,[]);
  %endfor
 
+
+ %load('MkIVConvolvedData.mat')  to call the mat file with the test images that went throught the convolution process of the mIK implementation
+ %reshape(convolutedImagesMkIV{2},11,11)'  to look at one sample of the data
+
  % fully connected network
 
+ % the trained network is used to get the predictions, it is the fully connected network. The convolutedImegesMkIv are input
+ % load('arrayLabels.mat') get file with labels placed as arrays
+ % load('networkmkIV.mat') get file with network trained with test samples using the mkIv algorithm the name of the variable is trained network
  %for i = 1:length(j)
 %np=networkPredictions(convolutedImagesMkIV{j(i)},trainedNetwork);
 %r = softMax(np)
@@ -111,3 +121,5 @@
 
 % j = [7400 9163 9002 6659 8291 7882 6729 8397 6831 9340 7639 8235 8038 7090 9509 7176 8053 7706 9242 6187 7193 6223 8121 8311 9709 6610 8292 7448 8186 7391 9995 6194 9296 7829 9153 6266 7555 9566 8536 7034 8879 6669 9987 6867 9009 9635 9964 8632 9805 6163]
 
+% for getting the accuracy of the model
+% accuracyCalculator (j, trainedNetwork, convolutedImagesMkIV, arrayLabels)
