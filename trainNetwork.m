@@ -116,13 +116,14 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         error{numberOfLayers} = layer{numberOfLayers} - y'; %The error for the last layer is calculated outside of the for loop
 
         for j=numberOfThetas: -1 :2
-            error{j} = theta{j}' * error {j+1}; % multiplicate matrices of output error and weughts of the previous layer of network
+            error{j} = theta{j}' * error {j+1}; % multiplicate matrices of output error and weшghts of the previous layer of network
         end
 
 
         %Substract partial derivatives from theta
         for j=1:numberOfThetas
             theta{j} = theta{j} - alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}'); % gradient descent
+            %theta{j} = theta{j} - alpha * (error{j+1}); possible gradient descend without derivative for activation function
         end
 
         %Calculate Mean Square Error for each epoch

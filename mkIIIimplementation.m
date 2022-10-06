@@ -42,7 +42,7 @@
  structure = [576 120 10];
  % create the fully connected network
  network = generateNetwork(structure);
- epochs = 50;
+ epochs = 100;
  alpha = 0.00001;
  % train the network
  [trainedNetwork,costLog,accuracyLog]=trainNetwork(btest,imgTestLabel,network,'epochs',epochs, 'alpha',alpha);
@@ -63,8 +63,9 @@
  % us the same network to train al btest and the result should be an accurate trainedNetwork
 
 %%%%%%%%% for  checking the mass data %%%%%%
- %load ConvBinaryImgMkIII.mat
+ %load MkIIIConvolvedData.mat
  %load arrayLabels.mat
+ %load networkMkIII.mat
 
 % for i =1:6000
 %[trainedNetwork,costLog,accuracyLog]=trainNetwork(convolvedDataMkIII{i},arrayLabels{i},trainedNetwork,'epochs',epochs, 'alpha',alpha);
@@ -82,3 +83,5 @@
 
  % j = [7400 9163 9002 6659 8291 7882 6729 8397 6831 9340 7639 8235 8038 7090 9509 7176 8053 7706 9242 6187 7193 6223 8121 8311 9709 6610 8292 7448 8186 7391 9995 6194 9296 7829 9153 6266 7555 9566 8536 7034 8879 6669 9987 6867 9009 9635 9964 8632 9805 6163]
 
+ % for getting the accuracy of the model
+% accuracyCalculator (j, trainedNetwork, convolvedDataMkIII , arrayLabels)

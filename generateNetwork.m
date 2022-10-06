@@ -21,9 +21,9 @@ function[network] = generateNetwork(structure)
   %Create and fill the weight matrices
   for i = 1:numberOfThetas
     %matrices Range for: -0.5 to 0.5. This values will be later binarized
-    theta{i} = rand(structure(i+1)+offset,structure(i)+offset)-0.5;
+    %theta{i} = rand(structure(i+1)+offset,structure(i)+offset)-0.5;
     % binarized thetas
-    %theta{i} = deterministic_binarization(rand(structure(i+1)+offset,structure(i)+offset)-0.5);
+    theta{i} = deterministic_binarization(rand(structure(i+1)+offset,structure(i)+offset)-0.5);
   endfor
 
   % Remove the offset from the last (output) layer

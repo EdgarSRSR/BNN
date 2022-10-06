@@ -83,6 +83,8 @@
 
  xlabel('epochs');
 
+ imgTestLabel
+
  % use the same network to train al binaryImage and the result should be an accurate trainedNetwork
 %  load(binaryDataImages.mat) to call the mat file with the test images turned binary
 % reshape(binaryImage{2},27,27)'  show one of the binary images
