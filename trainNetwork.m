@@ -123,7 +123,6 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         %Substract partial derivatives from theta
         for j=1:numberOfThetas
             theta{j} = theta{j} - alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}'); % gradient descent
-            %theta{j} = theta{j} - alpha * (error{j+1}); possible gradient descend without derivative for activation function
         end
 
         %Calculate Mean Square Error for each epoch

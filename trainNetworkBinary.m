@@ -1,27 +1,136 @@
-## Copyright (C) 2022 Admin
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## -*- texinfo -*-
-## @deftypefn {} {@var{retval} =} trainNetworkBinary (@var{input1}, @var{input2})
-##
-## @seealso{}
-## @end deftypefn
 
-## Author: Admin <Admin@DESKTOP-0KMA9I8>
-## Created: 2022-10-12
+%==========================================================================
+%TRAINNETWORKBINARY Trains a network TO BE COMPLETELY BINARY
+%   @Input
+%   X: Data for training
+%   y: Labels for X
+%   network: Network that should be trained
+%   varargin:
+%       'epochs'    Number of epochs you want to train
+%       'alpha'     Alpha you want to use for training
+%       'validationData'        Validation dataset
+%       'validationDataOutput'  Labels for the validation dataset
+%
+%
+%   @Output
+%   trainedNetwork:
+%   cost_log: Vector with the cost after each epoch
+%   trainingSetAccuracy: Vector with the accuracy of the network after each epoch
+%   validationSetAccuracy: Vector with the accuracy of the valdidation dataset (if given) after each epoch
+%
 
-function retval = trainNetworkBinary (input1, input2)
 
-endfunction
+function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] = trainNetwork(X, y, network, varargin)
+    %default parameter
+    defaultEpochs=100;
+    defaultAlpha=0.01;
+    defaultValidationData=[];
+    defaultValidationOutput=[];
+
+    %Input Parser
+    p = inputParser;
+    p.FunctionName = 'trainNetwork';
+    addParameter(p,'epochs',defaultEpochs,@(x)validateattributes_with_return_value(x,{'numeric'},{'nonempty'}));
+    addParameter(p,'alpha',defaultAlpha,@(x)validateattributes_with_return_value(x,{'numeric'},{'nonempty'}));
+    addParameter(p,'validationData',defaultValidationData);
+    addParameter(p,'validationDataOutput',defaultValidationOutput);
+    p.parse(varargin{:});
+
+    %Assign parsed input to the variables
+    epochs = p.Results.epochs;
+    alpha = p.Results.alpha;
+    validationData = p.Results.validationData;
+    validationOutput = p.Results.validationDataOutput;
+
+    %Only do a validation if the user inserts a validation dataset with the
+    %expected results
+    doValidation = ~isempty(validationData) && ~isempty(validationOutput);
+
+
+    % weights of the network with real values
+    theta = network;
+    % weights of the network with binary values
+    theta_binary = network;
+
+    %number of weight matrices and layers
+    numberOfThetas = length(theta);
+    numberOfLayers = numberOfThetas +1;
+
+    %matrices for the Output of each Layer
+
+    layer=cell(1,numberOfLayers); % set that will have arrays for each layer
+
+
+    m=size(X,1);
+    cost_log=zeros(epochs,1); % set that saves costs of epochs
+    trainingSetAccuracy=zeros(epochs,1); % array that saves training accuracy of epoch
+    validationSetAccuracy=zeros(epochs,1);
+
+
+
+    %assign the transposed input to the input layer
+    layer{1} = X';
+    %Add offset to the first layer (input layer)
+    layer{1}=[layer{1}; ones(1,size(layer{1},2))];
+
+
+
+
+
+    %loop the carry out gradient descent iter times
+    for i=1:epochs
+        fprintf("Epoch %d/%d\r",i,epochs);
+        %forward propagation to calculate output using sigmoid function
+        for j=1:numberOfThetas
+            %By the forward calculation the offset neuron gets inserted into the activation function. This needs to be reveresed before the next layer is calculated
+            layer{j}(end,:)=1;
+            layer{j+1} = signFunction(theta{j} * layer{j}); %this will be changed to a sign function
+        end
+
+
+
+        %back propagation to calculate error
+        error=cell(1,numberOfLayers);
+        error{numberOfLayers} = layer{numberOfLayers} - y'; %The error for the output layer is calculated outside of the for loop
+
+        for j=numberOfThetas: -1 :2
+            error{j} = theta_binary{j}' * error {j+1}; % multiplicate matrices of output error and weights of the previous layer of network, whose weights are binarized
+        end
+
+
+        % derivative of sigmoid transfer(activation) function is output*(1-output)
+        % Substract partial derivatives from theta
+        % The error for a given neuron can be calculated as follows:
+        % error = (output - expected) * transfer_derivative(output)  Where expected is the expected output value for the neuron, output is the output value for the neuron and transfer_derivative() calculates the slope of the neuron’s output value, as shown above. This error calculation is used for neurons in the output layer.
+        % The back-propagated error signal is accumulated and then used to determine the error for the neuron in the hidden layer, as follows:
+        % error = (weight_k * error_j) * transfer_derivative(output)
+        for j=1:numberOfThetas
+            %theta{j} = theta{j} - alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}'); % updating weights with gradient descent: weight - learningrate*error*input
+            %  layer{j+1} .* (1-layer{j+1} is the derivative of sigmoid, it will be changed to the derivative of tanh
+            % (4*exp(2*layer{j+1})/(1+exp(2*layer{j+1})).^2)
+             theta{j} = theta{j} - alpha * ((error{j+1} .* (4.*exp(2.*layer{j+1})/(1+exp(2.*layer{j+1})).^2))) * layer{j}'); % gradient descent using derivative of tanh
+        end
+
+        for j=1:numberOfThetas
+          theta_binary = deterministic_binarization(theta{j}); %binarization of the real value weights
+        endfor
+
+        %Calculate Mean Square Error for each epoch
+        %Double sum because sum of a matrix creates a vector and sum of a
+        %vector creates a double value.
+        cost = 1/m * sum(sum(error{numberOfLayers}.^2));
+        cost_log(i)=cost;
+
+        %Calculate the accuracy of the trainings set
+        trainingSetAccuracy(i)=calculateAccuracy(layer{numberOfLayers}, y');
+
+        if(doValidation)
+            prediction=networkPrediction(validationData, theta);
+            validationSetAccuracy(i)=calculateAccuracy(prediction, validationOutput');
+        end
+
+    end
+
+    trainedNetwork = theta;
+end
