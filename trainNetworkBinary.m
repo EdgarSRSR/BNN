@@ -1,7 +1,7 @@
 
 
 %==========================================================================
-%TRAINNETWORKBINARY Trains a network TO BE COMPLETELY BINARY
+%TRAINNETWORKBINARY Trains a network TO BE COMPLETELY BINARY USING A DERIVATIVE OF TANH FOR THE BACKPROPAGATION
 %   @Input
 %   X: Data for training
 %   y: Labels for X
@@ -74,7 +74,10 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
     %Add offset to the first layer (input layer)
     layer{1}=[layer{1}; ones(1,size(layer{1},2))];
 
-
+    %binarization of the real value weights, set the weights of the network to binary
+    for j=1:numberOfThetas
+      theta_binary = deterministic_binarization(theta{j}); %binarization of the real value weights
+    endfor
 
 
 
@@ -82,6 +85,10 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
     for i=1:epochs
         fprintf("Epoch %d/%d\r",i,epochs);
         %forward propagation to calculate output using sigmoid function
+
+
+
+
         for j=1:numberOfThetas
             %By the forward calculation the offset neuron gets inserted into the activation function. This needs to be reveresed before the next layer is calculated
             layer{j}(end,:)=1;
@@ -112,9 +119,11 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
              theta{j} = theta{j} - alpha * ((error{j+1} .* (4.*exp(2.*layer{j+1})/(1+exp(2.*layer{j+1})).^2))) * layer{j}'); % gradient descent using derivative of tanh
         end
 
+        % update the binary values of the weights
         for j=1:numberOfThetas
           theta_binary = deterministic_binarization(theta{j}); %binarization of the real value weights
         endfor
+
 
         %Calculate Mean Square Error for each epoch
         %Double sum because sum of a matrix creates a vector and sum of a
