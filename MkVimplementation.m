@@ -103,12 +103,12 @@
  %endfor
 
 
- %load('MkIVConvolvedData.mat')  to call the mat file with the test images that went throught the convolution process of the mIK implementation
+ %load('MkIVConvolvedData.mat')  to call the mat file with the test images that went throught the convolution process of the MkIV implementation
  %reshape(convolutedImagesMkIV{2},11,11)'  to look at one sample of the data
 
  % fully connected network
 
- % the trained network is used to get the predictions, it is the fully connected network. The convolutedImegesMkIv are input
+ % the trained network is used to get the predictions, it is the fully connected network. The convolutedImegesMkV are input
  % load('arrayLabels.mat') get file with labels placed as arrays
  % load('networkmkIV.mat') get file with network trained with test samples using the mkIv algorithm the name of the variable is trained network
  %for i = 1:length(j)
@@ -123,5 +123,23 @@
 
 % j = [7400 9163 9002 6659 8291 7882 6729 8397 6831 9340 7639 8235 8038 7090 9509 7176 8053 7706 9242 6187 7193 6223 8121 8311 9709 6610 8292 7448 8186 7391 9995 6194 9296 7829 9153 6266 7555 9566 8536 7034 8879 6669 9987 6867 9009 9635 9964 8632 9805 6163]
 
+%j = [294 244 795 488 467 88 749 430 624 515 383 57 775 223 523 310 333 539 450 268 28 623 673 493 903 437 813 160 329 363 306 154 689 647 852 650 783 298 953 956 29 997 490 842 55 242 448 889 24 322]
+
 % for getting the accuracy of the model
 % accuracyCalculator (j, trainedNetwork, convolutedImagesMkIV, arrayLabels)
+
+
+% Training of the network
+%load arrayLabels.mat
+%load MkIVConvolvedData.mat
+ %load networkMkV.mat
+ %epochs = 100;
+ %alpha = 0.00001;
+ %labels = data(:,1);
+
+ %for i=1:1000
+ %  [networkMkV,costLog,accuracyLog]=trainNetworkBinary(convolutedImagesMkIV{i},labels(i),networkMkV,'epochs',epochs, 'alpha',alpha);
+ % printf("Data sample %d training complete", i);
+ %endfor
+
+

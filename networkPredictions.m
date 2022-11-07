@@ -7,7 +7,7 @@
 % NETWORKPREDICTIONS Calculates the output of a neural network to a given input.
 % Y = NETWORKPREDICTION(X,network) Calculates response of the given network for X.
 
-function[prediction] = networkPredictions(X, network)
+function [prediction] = networkPredictions(X, network)
 
   % number of weight matrices and layers
   numberOfThetas = length(network);
@@ -32,5 +32,5 @@ function[prediction] = networkPredictions(X, network)
 
   prediction = layer{numberOfLayers};
 
- end
+ endfunction
 

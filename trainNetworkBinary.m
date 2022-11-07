@@ -86,13 +86,14 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         fprintf("Epoch %d/%d\r",i,epochs);
         %forward propagation to calculate output using sigmoid function
 
-
+        %printf("Size of theta binary");
+        disp(size(theta_binary));
 
 
         for j=1:numberOfThetas
             %By the forward calculation the offset neuron gets inserted into the activation function. This needs to be reveresed before the next layer is calculated
             layer{j}(end,:)=1;
-            layer{j+1} = signFunction(theta{j} * layer{j}); %this will be changed to a sign function
+            layer{j+1} = signFunction(theta_binary(j) * layer{j}); %this will be changed to a sign function
         end
 
 
@@ -102,7 +103,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         error{numberOfLayers} = layer{numberOfLayers} - y'; %The error for the output layer is calculated outside of the for loop
 
         for j=numberOfThetas: -1 :2
-            error{j} = theta_binary{j}' * error {j+1}; % multiplicate matrices of output error and weights of the previous layer of network, whose weights are binarized
+            error{j} = theta_binary(j)' * error {j+1}; % multiplicate matrices of output error and weights of the previous layer of network, whose weights are binarized
         end
 
 
@@ -112,11 +113,17 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         % error = (output - expected) * transfer_derivative(output)  Where expected is the expected output value for the neuron, output is the output value for the neuron and transfer_derivative() calculates the slope of the neuron’s output value, as shown above. This error calculation is used for neurons in the output layer.
         % The back-propagated error signal is accumulated and then used to determine the error for the neuron in the hidden layer, as follows:
         % error = (weight_k * error_j) * transfer_derivative(output)
+        % disp("size theta")
+        %size(theta{1})
         for j=1:numberOfThetas
-            %theta{j} = theta{j} - alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}'); % updating weights with gradient descent: weight - learningrate*error*input
+            %disp("subtractor")
+            %subtractor = alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}');
+            %disp("theta{j}")
+            %disp(theta{j});
+            %theta{j} = theta{j} - subtractor; % updating weights with gradient descent: weight - learningrate*error*input
             %  layer{j+1} .* (1-layer{j+1} is the derivative of sigmoid, it will be changed to the derivative of tanh
             % (4*exp(2*layer{j+1})/(1+exp(2*layer{j+1})).^2)
-             theta{j} = theta{j} - alpha * ((error{j+1} .* (4.*exp(2.*layer{j+1})/(1+exp(2.*layer{j+1})).^2))) * layer{j}'); % gradient descent using derivative of tanh
+            theta{j} = theta{j} - (alpha * ((error{j+1} .* (4.*exp(2.*layer{j+1})./(1+exp(2.*layer{j+1})).^2)) * layer{j}')); % gradient descent using derivative of tanh
         end
 
         % update the binary values of the weights

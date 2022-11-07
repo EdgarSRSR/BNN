@@ -8,6 +8,8 @@
 
 function retval = signFunction (z)
 
+  retval = 0;
+
   if (z > 0)
     retval = 1;
   elseif (z == 0)
