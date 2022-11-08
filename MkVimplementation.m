@@ -126,7 +126,7 @@
 %j = [294 244 795 488 467 88 749 430 624 515 383 57 775 223 523 310 333 539 450 268 28 623 673 493 903 437 813 160 329 363 306 154 689 647 852 650 783 298 953 956 29 997 490 842 55 242 448 889 24 322]
 
 % for getting the accuracy of the model
-% accuracyCalculator (j, trainedNetwork, convolutedImagesMkIV, arrayLabels)
+% accuracyCalculator (j, networkMkV, convolutedImagesMkIV, arrayLabels)
 
 
 % Training of the network
