@@ -12,10 +12,8 @@ function retval = signFunction (z)
 
   if (z > 0)
     retval = 1;
-  elseif (z == 0)
+  else
     retval = 0;
-  elseif (z < 0)
-    retval = -1;
   endif
 
 endfunction

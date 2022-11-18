@@ -1,7 +1,7 @@
 
 
 %==========================================================================
-%TRAINNETWORKBINARY Trains a network TO BE COMPLETELY BINARY USING A DERIVATIVE OF TANH FOR THE BACKPROPAGATION
+%TRAINNETWORKSTE Trains a network TO BE COMPLETELY BINARY USING A DERIVATIVE OF TANH FOR THE BACKPROPAGATION
 %   @Input
 %   X: Data for training
 %   y: Labels for X
@@ -21,7 +21,7 @@
 %
 
 
-function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] = trainNetworkBinary(X, y, network, varargin)
+function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] = trainNetworkSTE(X, y, network, varargin)
     %default parameter
     defaultEpochs=100;
     defaultAlpha=0.01;
@@ -30,7 +30,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
 
     %Input Parser
     p = inputParser;
-    p.FunctionName = 'trainNetworkBinary';
+    p.FunctionName = 'trainNetworkSTE';
     addParameter(p,'epochs',defaultEpochs,@(x)validateattributes_with_return_value(x,{'numeric'},{'nonempty'}));
     addParameter(p,'alpha',defaultAlpha,@(x)validateattributes_with_return_value(x,{'numeric'},{'nonempty'}));
     addParameter(p,'validationData',defaultValidationData);
@@ -54,8 +54,10 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
     theta_binary = network;
 
     %number of weight matrices and layers
-    numberOfThetas = length(theta);
-    numberOfLayers = numberOfThetas +1;
+    disp("number of weight matrices");
+    numberOfThetas = length(theta)
+    disp("number of layers");
+    numberOfLayers = numberOfThetas +1
 
     %matrices for the Output of each Layer
 
@@ -69,7 +71,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
 
 
 
-    %assign the transposed input to the input layer
+    %assign the transposed input of the convoluted images to the input layer
     layer{1} = X';
     %Add offset to the first layer (input layer)
     layer{1}=[layer{1}; ones(1,size(layer{1},2))];
@@ -78,6 +80,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
     for j=1:numberOfThetas
       theta_binary = deterministic_binarization(theta{j}); %binarization of the real value weights
     endfor
+
 
 
 
@@ -106,6 +109,11 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
             error{j} = theta_binary(j)' * error {j+1}; % multiplicate matrices of output error and weights of the previous layer of network, whose weights are binarized
         end
 
+        %disp("error size")
+        % size(error)
+
+
+
 
         % derivative of sigmoid transfer(activation) function is output*(1-output)
         % Substract partial derivatives from theta
@@ -118,12 +126,12 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         for j=1:numberOfThetas
             %disp("subtractor")
             %subtractor = alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}');
+            subtractor = alpha * (identityOne(error{j+1} .* layer{j+1}) ); % new ste proposal
+            %subtractor =  alpha * (error{j+1} * layer{j}');
+            %size(subtractor)
             %disp("theta{j}")
-            %disp(theta{j});
-            %theta{j} = theta{j} - subtractor; % updating weights with gradient descent: weight - learningrate*error*input
-            %  layer{j+1} .* (1-layer{j+1} is the derivative of sigmoid, it will be changed to the derivative of tanh
-            % (4*exp(2*layer{j+1})/(1+exp(2*layer{j+1})).^2)
-            theta{j} = theta{j} - (alpha * ((error{j+1} .* (4.*exp(2.*layer{j+1})./(1+exp(2.*layer{j+1})).^2)) * layer{j}')); % gradient descent using derivative of tanh
+            %size(theta{j})
+             theta{j} = hardTanh(theta{j} -  subtractor); % updating weights with gradient descent: weight - learningrate*error*input and adding hard tanh to keep them in 1 : -1 range
         end
 
         % update the binary values of the weights
