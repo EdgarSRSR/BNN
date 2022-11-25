@@ -25,9 +25,9 @@
 function retval = hardTanh(x)
 
   retval = 0;
-  if(x > 1)
+  if(x >= 1)
     retval = 1;
-  else if (x < -1)
+  else if (x <= -1)
     retval = -1;
   else
     retval = x;

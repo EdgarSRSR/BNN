@@ -15,7 +15,7 @@ function binaryImage = deterministic_binarization(image)
       if (image(i,j) > 0)
         binaryImage(i,j)  = 1;
       else
-        binaryImage(i,j)  = 0;
+        binaryImage(i,j)  = -1;
       endif
      endfor
   endfor

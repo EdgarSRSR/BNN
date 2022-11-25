@@ -13,7 +13,7 @@ function retval = signFunction (z)
   if (z > 0)
     retval = 1;
   else
-    retval = 0;
+    retval = -1;
   endif
 
 endfunction

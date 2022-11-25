@@ -88,6 +88,8 @@
 
  imgTestLabel
 
+ trainedNetwork
+
  % use the same network to train al binaryImage and the result should be an accurate trainedNetwork
 %  load(binaryDataImages.mat) to call the mat file with the test images turned binary
 % reshape(binaryImage{2},27,27)'  show one of the binary images
@@ -138,8 +140,8 @@
 %  labels = data(:,1);
 %load MkIVConvolvedData.mat
  %load networkMkVI.mat
- %epochs = 100;
- %alpha = 0.00001;
+ %epochs = 200;
+ %alpha = 0.0001;
  %labels = data(:,1);
 
  %for i=1:2000

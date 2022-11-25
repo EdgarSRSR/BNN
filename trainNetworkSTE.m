@@ -24,7 +24,7 @@
 function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] = trainNetworkSTE(X, y, network, varargin)
     %default parameter
     defaultEpochs=100;
-    defaultAlpha=0.01;
+    defaultAlpha=0.0001;
     defaultValidationData=[];
     defaultValidationOutput=[];
 
@@ -78,7 +78,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
 
     %binarization of the real value weights, set the weights of the network to binary
     for j=1:numberOfThetas
-      theta_binary = deterministic_binarization(theta{j}); %binarization of the real value weights
+      theta_binary{j} = deterministic_binarization(theta{j}); %binarization of the real value weights
     endfor
 
 
@@ -90,13 +90,13 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         %forward propagation to calculate output using sigmoid function
 
         %printf("Size of theta binary");
-        disp(size(theta_binary));
+        %disp(size(theta_binary));
 
 
         for j=1:numberOfThetas
             %By the forward calculation the offset neuron gets inserted into the activation function. This needs to be reveresed before the next layer is calculated
             layer{j}(end,:)=1;
-            layer{j+1} = signFunction(theta_binary(j) * layer{j}); %this will be changed to a sign function
+            layer{j+1} = deterministic_binarization(theta_binary{j} * layer{j}); %this will be changed to a sign function
         end
 
 
@@ -106,7 +106,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         error{numberOfLayers} = layer{numberOfLayers} - y'; %The error for the output layer is calculated outside of the for loop
 
         for j=numberOfThetas: -1 :2
-            error{j} = theta_binary(j)' * error {j+1}; % multiplicate matrices of output error and weights of the previous layer of network, whose weights are binarized
+            error{j} = theta_binary{j}' * error {j+1}; % multiplicate matrices of output error and weights of the previous layer of network, whose weights are binarized
         end
 
         %disp("error size")
@@ -136,7 +136,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
 
         % update the binary values of the weights
         for j=1:numberOfThetas
-          theta_binary = deterministic_binarization(theta{j}); %binarization of the real value weights
+          theta_binary{j} = deterministic_binarization(theta{j}); %binarization of the real value weights
         endfor
 
 
