@@ -96,7 +96,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
         for j=1:numberOfThetas
             %By the forward calculation the offset neuron gets inserted into the activation function. This needs to be reveresed before the next layer is calculated
             layer{j}(end,:)=1;
-            layer{j+1} = deterministic_binarization(theta_binary{j} * layer{j}); %this will be changed to a sign function
+            layer{j+1} = deterministic_binarization(theta_binary{j} * layer{j}); %activation function (and gate?)
         end
 
 
@@ -127,6 +127,7 @@ function[trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] =
             %disp("subtractor")
             %subtractor = alpha * ((error{j+1} .* layer{j+1} .* (1-layer{j+1})) * layer{j}');
             subtractor = alpha * (identityOne(error{j+1} .* layer{j+1}) ); % new ste proposal
+            %theta{j} = identityOne(theta{j} - alpha * (error{j+1})); % even newer ste proposal
             %subtractor =  alpha * (error{j+1} * layer{j}');
             %size(subtractor)
             %disp("theta{j}")
