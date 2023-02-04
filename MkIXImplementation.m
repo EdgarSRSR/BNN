@@ -1,7 +1,8 @@
 
  clear;
 
- % Implementation of BNN mk VI
+ % Implementation of BNN mk IX
+ % uses values 0 and 1 so that octave's logic gates work correctly
  % image: 28h x 28w x 1 channel --- 784 Binarization
  % convolution 5x5 kernel + 0 padding 24h x 24w = 576
  % average pooling 2x2 kernel + 2 stride 12h x 12w = 144
@@ -16,10 +17,11 @@
  % dense:10 fully connected neurons
  % soft max function
  % output: 1 0f 10 classes
+ %
+
 
 
  data = load('../mnist/mnist_test.csv');
- %load('networkMkVI')
  labels = data(:,1); % labels for the samples
  images = data(:,2:785);
  size(images)
@@ -68,7 +70,7 @@
 
   alpha = 0.0001;
 
-  [trainedNetwork,costLog,accuracyLog]=trainNetworkSTE(binaryImage,imgTestLabel,network,'epochs',epochs, 'alpha',alpha);
+  [trainedNetwork,costLog,accuracyLog]=trainNetworkBinaryBatch(binaryImage,imgTestLabel,network,'epochs',epochs, 'alpha',alpha);
 
   np=networkPredictions(binaryImage,trainedNetwork)
 

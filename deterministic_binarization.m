@@ -5,7 +5,7 @@
 %===============================================================================
 
 % DETERMINISTIC_BINARIZATION Biniarizes the value by turning it into a +1 value if it is equal or above 0
-% or to -1 if it below 0
+% or to 0 if it below 0
 
 function binaryImage = deterministic_binarization(image)
 
@@ -15,7 +15,7 @@ function binaryImage = deterministic_binarization(image)
       if (image(i,j) > 0)
         binaryImage(i,j)  = 1;
       else
-        binaryImage(i,j)  = -1;
+        binaryImage(i,j)  = 0;
       endif
      endfor
   endfor
