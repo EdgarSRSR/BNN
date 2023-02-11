@@ -113,8 +113,10 @@ function [trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] 
               %layer{j+1}(g)= deterministic_binarization(binaryCrossCorrelation(theta_binary{j}(g,:),layer{j}');)';
               v(g)=binaryCrossCorrelation(theta_binary{j}(g,:),layer{j}');
             endfor
+            v = batchNormalization(layer{v},epsilon,gamma,delta);
             layer{j+1}=deterministic_binarization(v)';
             v=[];
+
         end
 
         %forward batch normalization
