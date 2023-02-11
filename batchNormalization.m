@@ -22,7 +22,7 @@
 ## Author: Admin <Admin@DESKTOP-0KMA9I8>
 ## Created: 2023-01-17
 
-function retval = batchNormalization (batch, epsilon, gamma, delta)
+function retval = batchNormalization (batch, epsilon, gamma, beta)
 
   % var: Computes the variance of the elements of the vector x. The variance is defined as var (x) = 1/(N-1) SUM_i (x(i) - mean(x))^2
   % Batch Normalization Forward Pass

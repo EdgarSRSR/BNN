@@ -22,37 +22,40 @@
 ## Author: Admin <Admin@DESKTOP-0KMA9I8>
 ## Created: 2023-01-27
 
-function [xhat, xmu, ivar, sqrtvar, var] = batchnorm_forward (batch, epsilon, gamma, beta)
+function [xhat, xmu, ivar, sqrtvar, var, out] = batchnorm_forward (batch, epsilon, gamma, beta)
 
-  N = rows(batch)
-  D = columns(batch)
+  N = rows(batch);
+  D = columns(batch);
 
   # step1: calculate mean
-  mu = 1./N*sum(batch)
+  mu = 1./N*sum(batch);
 
   #step2: substract mean vector of every trainings example
-  xmu = batch - mu
+  xmu = batch - mu;
 
   #step3:
-  sq = xmu^2
+  %sq = xmu^2
+  for j=1:N
+    sq(j)=xmu(j)^2;
+  end
 
   #step4:calculate variance
-  var = 1./N * sum(sq)
+  var = 1./N * sum(sq);
 
   #step5: add eps for numerical stability, then sqrt
-  sqrtvar = sqrt(var + epsilon)
+  sqrtvar = sqrt(var + epsilon);
 
   #step6: invert sqrtvar
-  ivar = 1./sqrtvar
+  ivar = 1./sqrtvar;
 
   #step7: execute normalization
-  xhat = xmu * ivar
+  xhat = xmu * ivar;
 
   #step8: Nor the two transformation steps
-  gammax = gamma * xhat
+  gammax = gamma * xhat;
 
   #step9:
-  out = gammax + beta
+  out = gammax + beta;
 
 
 endfunction
