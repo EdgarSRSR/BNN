@@ -113,7 +113,7 @@ function [trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] 
               %layer{j+1}(g)= deterministic_binarization(binaryCrossCorrelation(theta_binary{j}(g,:),layer{j}');)';
               v(g)=binaryCrossCorrelation(theta_binary{j}(g,:),layer{j}');
             endfor
-            v = batchNormalization(layer{v},epsilon,gamma,delta);
+            v = batchNormalization(v,epsilon,gamma,beta);
             layer{j+1}=deterministic_binarization(v)';
             v=[];
 
@@ -125,6 +125,19 @@ function [trainedNetwork, cost_log, trainingSetAccuracy, validationSetAccuracy] 
             gamma=sqrt(var(layer{j+1}));
             delta=mean(layer{j+1});
         end
+
+        % back propagation
+        for j=1:numberOfThetas
+          if (j < numberOfThetas)
+            gradient = (derivedClippedRelu(layer{j+1})*identityOne(layer{j+1}) );
+          endif
+          [xhat, xmu, ivar, sqrtvar, var,dout] = batchnorm_forward (gradient, epsilon, gamma, beta)
+          [dx, dgamma, dbeta] = batchnorm_backward (dout, xhat, gamma, epsilon, xmu, ivar, sqrtvar, var)
+          gradientNeuron = dx'.*theta_binary{j}';
+          gtadientWeight = layer{j+1}.*gradientNeuron;
+        end
+
+        % Accumulating the parameters gradients
 
 
 
